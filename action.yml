@@ -38,19 +38,19 @@ runs:
     - run: pip install isort==5.10.1 black==22.3.0 flake8==3.8.4 mypy==0.790
       shell: bash
     - run: pip install -r requirements.txt
-      if: ${{inputs.install-requirements}}
+      if: ${{inputs.install-requirements == 'true'}}
       shell: bash
     - run: isort --check ${{inputs.source}}
-      if: ${{inputs.use-isort}}
+      if: ${{inputs.use-isort == 'true'}}
       shell: bash
     - run: black --check ${{inputs.source}}
-      if: ${{inputs.use-black}}
+      if: ${{inputs.use-black == 'true'}}
       shell: bash
     - run: flake8 ${{inputs.source}}
-      if: ${{inputs.use-flake8}}
+      if: ${{inputs.use-flake8 == 'true'}}
       shell: bash
     - run: mypy --namespace-packages ${{inputs.source}}
-      if: ${{inputs.use-mypy}}
+      if: ${{inputs.use-mypy == 'true'}}
       shell: bash
 branding:
   color: "green"
