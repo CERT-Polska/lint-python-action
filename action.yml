@@ -25,9 +25,13 @@ inputs:
     required: false
     default: true
   install-requirements:
-    description: "Install requirements.txt (used for type checking)"
+    description: "Install dependencies from requirements.txt (for type checking)"
     required: false
     default: true
+  extra-requirements:
+    description: "Install extra dependencies (type stubs, extensions etc.)"
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -39,6 +43,9 @@ runs:
       shell: bash
     - run: pip install -r requirements.txt
       if: ${{inputs.install-requirements == 'true'}}
+      shell: bash
+    - run: pip install ${{inputs.extra-dependencies}}
+      if: ${{inputs.extra-dependencies != ''}}
       shell: bash
     - run: isort --check ${{inputs.source}}
       if: ${{inputs.use-isort == 'true'}}
