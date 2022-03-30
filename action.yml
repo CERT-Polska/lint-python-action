@@ -1,0 +1,46 @@
+name: "Check out code and lint source"
+description: "Installs dependencies and runs common Python linters"
+inputs:
+  source:
+    description: 'Source directory'
+    required: true
+  python-version:
+    description: "What Python version use for running linting tools"
+    required: false
+    default: 3.8
+  use-isort:
+    description: "Run isort check"
+    required: false
+    default: true
+  use-black:
+    description: "Run black check"
+    required: false
+    default: true
+  use-flake8:
+    description: "Run flake8 check"
+    required: false
+    default: true
+  use-mypy:
+    description: "Run mypy check"
+    required: false
+    default: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: ${{inputs.python-version}}
+    - run: pip install isort==5.10.1 black==22.3.0 flake8==3.8.4 mypy==0.790
+    - run: pip install -r requirements.txt
+    - run: isort --check ${{inputs.source}}
+      if: ${{inputs.use-isort}}
+    - run: black --check ${{inputs.source}}
+      if: ${{inputs.use-black}}
+    - run: flake8 ${{inputs.source}}
+      if: ${{inputs.use-flake8}}
+    - run: mypy --namespace-packages ${{inputs.source}}
+      if: ${{inputs.use-mypy}}
+branding:
+  color: "green"
+  icon: "check-square"
