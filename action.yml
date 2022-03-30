@@ -24,6 +24,10 @@ inputs:
     description: "Run mypy check"
     required: false
     default: true
+  install-requirements:
+    description: "Install requirements.txt (used for type checking)"
+    required: false
+    default: true
 runs:
   using: "composite"
   steps:
@@ -34,6 +38,7 @@ runs:
     - run: pip install isort==5.10.1 black==22.3.0 flake8==3.8.4 mypy==0.790
       shell: bash
     - run: pip install -r requirements.txt
+      if: ${{inputs.install-requirements}}
       shell: bash
     - run: isort --check ${{inputs.source}}
       if: ${{inputs.use-isort}}
