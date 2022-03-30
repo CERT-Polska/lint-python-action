@@ -44,8 +44,8 @@ runs:
     - run: pip install -r requirements.txt
       if: ${{inputs.install-requirements == 'true'}}
       shell: bash
-    - run: pip install ${{inputs.extra-dependencies}}
-      if: ${{inputs.extra-dependencies != ''}}
+    - run: pip install ${{inputs.extra-requirements}}
+      if: ${{inputs.extra-requirements != ''}}
       shell: bash
     - run: isort --check ${{inputs.source}}
       if: ${{inputs.use-isort == 'true'}}
