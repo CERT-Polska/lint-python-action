@@ -10,9 +10,6 @@ Used linters and auto-formatters are:
 pip install -U isort==5.10.1 black==22.3.0 flake8==3.8.4 mypy==0.940
 ```
 
-If you want to introduce these linters into your project, some tools need to be preconfigured to cooperate correctly. 
-Check https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html for more information.
-
 ## Installation
 
 ```console
@@ -30,6 +27,8 @@ source = "lint_python/" # Put your source directory
 extra-requirements = "types-requests"  # Provide additional typing requirements if needed
 use-mypy = false  # Turn off any tool you don't want to use
 ```
+
+Tools are opt-out, so if you don't use static typing in your project, you can turn off any tool from linting.
 
 If you use Github Actions, you can add it to any steps of the workflow e.g. `.github/workflows/test.yml`
 
@@ -75,6 +74,33 @@ $ lint-python --check
 If you want to install packages and tools required for linting, use `--install` flag.
 ```console
 $ lint-python --install
+```
+
+Try `--help` for more settings.
+
+## Tips for linting your own project
+
+If you want to introduce these linters into your project, some tools need to be preconfigured to cooperate correctly. 
+Check https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html for more information.
+
+Our recommended settings are:
+
+```toml
+# in pyproject.toml file:
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+```
+
+```ini
+# in .flake8, setup.cfg or tox.ini file:
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503
 ```
 
 ## Read more
