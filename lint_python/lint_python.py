@@ -3,7 +3,7 @@ import logging
 import pathlib
 import subprocess
 import sys
-from typing import Optional, TypedDict
+from typing import List, Optional, TypedDict
 
 from yaml import safe_load
 
@@ -52,13 +52,13 @@ def discover_action() -> LintActionStep:
     )
 
 
-def run_command(args):
+def run_command(args: List[str]) -> None:
     logging.debug(f"Running command {args}")
     subprocess.run(args=args, check=True, stdout=sys.stdout, stderr=sys.stderr)
 
 
-def perform_linting(action: LintActionConfig, check_only=True):
-    def run_tool(command, *args, check=False):
+def perform_linting(action: LintActionConfig, check_only: bool) -> None:
+    def run_tool(command: str, *args: str, check: bool = False) -> None:
         logging.info(f"Linting with {command}")
         run_command(
             [
@@ -81,14 +81,14 @@ def perform_linting(action: LintActionConfig, check_only=True):
         run_tool("mypy", "--namespace-packages")
 
 
-def perform_pip_install(action: LintActionConfig, with_extra: bool):
+def perform_pip_install(action: LintActionConfig, with_extra: bool) -> None:
     requirements = ["isort==5.10.1", "black==22.3.0", "flake8==3.8.4", "mypy==0.940"]
     if with_extra:
         requirements += (action.get("extra-requirements") or "").split()
     run_command(["python3", "-m", "pip", "install", "-U", *requirements])
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Lint the source code.")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     parser.add_argument(
