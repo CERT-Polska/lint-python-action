@@ -13,12 +13,13 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "pyyaml"
+    "pyyaml",
+    "toml"
 ]
 dynamic = ["version"]
 
 [project.scripts]
-lint-python = "lint_python:main"
+lint-python = "lint_python.main:main"
 
 [tool.setuptools]
 packages = ["lint_python"]
@@ -33,3 +34,8 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
+
+[tool.lint-python]
+lint-version = "2"
+source = "lint_python/"
+extra-requirements = "types-PyYAML types-toml"

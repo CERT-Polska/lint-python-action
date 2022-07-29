@@ -39,25 +39,9 @@ runs:
     - uses: actions/setup-python@v1
       with:
         python-version: ${{inputs.python-version}}
-    - run: pip install isort==5.10.1 black==22.3.0 flake8==3.8.4 mypy==0.940
+    - run: pip install lint-python==2.0.0
       shell: bash
-    - run: pip install -r requirements.txt
-      if: ${{inputs.install-requirements == 'true'}}
-      shell: bash
-    - run: pip install ${{inputs.extra-requirements}}
-      if: ${{inputs.extra-requirements != ''}}
-      shell: bash
-    - run: isort --check ${{inputs.source}}
-      if: ${{inputs.use-isort == 'true'}}
-      shell: bash
-    - run: black --check ${{inputs.source}}
-      if: ${{inputs.use-black == 'true'}}
-      shell: bash
-    - run: flake8 ${{inputs.source}}
-      if: ${{inputs.use-flake8 == 'true'}}
-      shell: bash
-    - run: mypy --namespace-packages ${{inputs.source}}
-      if: ${{inputs.use-mypy == 'true'}}
+    - run: lint-python --check --install
       shell: bash
 branding:
   color: "green"
