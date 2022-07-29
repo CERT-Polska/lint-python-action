@@ -1,0 +1,27 @@
+[build-system]
+requires = [
+  "setuptools >= 40.9.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lint-python"
+description = "CLI tool used for running linter on project configured with CERT-Polska/lint-python-action"
+readme = "README.md"
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pyyaml"
+]
+dynamic = ["version"]
+
+[project.scripts]
+lint-python = "lint_python:main"
+
+[tool.setuptools]
+packages = ["lint_python"]
+
+[tool.setuptools.dynamic]
+version = {attr = "lint_python.__version__"}

@@ -1,0 +1,24 @@
+name: Lint the code
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: CERT-Polska/lint-python-action@v1
+        with:
+          source: lint_python/
+  test_linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - run: pip install .
+      - run: lint-python --install --check
