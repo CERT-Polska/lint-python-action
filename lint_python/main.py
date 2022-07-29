@@ -108,7 +108,7 @@ def perform_linting(config: LintPythonConfig, check_only: bool) -> None:
     if config.get("use-flake8", True):
         run_tool("flake8")
     if config.get("use-mypy", True):
-        run_tool("mypy", "--namespace-packages")
+        run_tool("mypy")
 
 
 def perform_pip_install(config: LintPythonConfig, with_extra: bool) -> None:
