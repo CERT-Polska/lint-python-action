@@ -13,6 +13,7 @@ jobs:
       - uses: CERT-Polska/lint-python-action@v1
         with:
           source: lint_python/
+          extra-requirements: types-PyYAML
   test_linting:
     runs-on: ubuntu-latest
     steps:
