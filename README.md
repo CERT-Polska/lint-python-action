@@ -7,7 +7,7 @@ Includes [GitHub Actions](https://docs.github.com/en/actions) custom action.
 Used linters and auto-formatters are:
 
 ```
-pip install -U isort==5.10.1 black==22.3.0 flake8==3.8.4 mypy==0.940
+pip install -U isort==5.10.1 black==22.6.0 flake8==4.0.1 mypy==0.971
 ```
 
 ## Installation
@@ -71,7 +71,8 @@ If you want to only perform a check without modifying files, use `--check` flag
 $ lint-python --check
 ```
 
-If you want to install packages and tools required for linting, use `--install` flag.
+If you have not installed packages and tools required for linting, use `--install` flag or `--install-only` flag if
+you don't want to lint immediately after successful installation.
 ```console
 $ lint-python --install
 ```

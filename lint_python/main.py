@@ -8,7 +8,7 @@ from typing import List, Optional, TypedDict, cast
 import toml
 import yaml
 
-from .__version__ import USED_LINTERS, __version__
+from .constants import USED_LINTERS, __version__
 
 LintPythonConfig = TypedDict(
     "LintPythonConfig",
@@ -154,7 +154,10 @@ def main() -> None:
         help="Perform only check and don't modify the files",
     )
     parser.add_argument(
-        "--install", action="store_true", help="Install required linters"
+        "--install", action="store_true", help="Install required linters before linting"
+    )
+    parser.add_argument(
+        "--install-only", action="store_true", help="Install required linters but don't perform linting"
     )
     parser.add_argument(
         "--no-extras",
@@ -179,8 +182,9 @@ def main() -> None:
         return
 
     try:
-        if args.install:
+        if args.install or args.install_only:
             perform_pip_install(lint_config, args.with_extras)
-        perform_linting(lint_config, args.check)
+        if not args.install_only:
+            perform_linting(lint_config, args.check)
     except subprocess.CalledProcessError as e:
         logging.error(f"Command {e.args} failed with return code {e.returncode}")
