@@ -15,12 +15,10 @@ LintPythonConfig = TypedDict(
     {
         "source": str,
         "lint-version": Optional[str],
-        "python-version": Optional[str],
         "use-isort": Optional[bool],
         "use-black": Optional[bool],
         "use-flake8": Optional[bool],
         "use-mypy": Optional[bool],
-        "install-requirements": Optional[bool],
         "extra-requirements": Optional[str],
     },
 )
@@ -78,30 +76,26 @@ def discover_config() -> Optional[LintPythonConfig]:
     return None
 
 
-def run_command(args: List[str]) -> None:
+def run_command(module: str, args: List[str]) -> None:
+    """
+    Run linter using `python -m` to force using package installed in virtualenv.
+    In case package is not installed, it will fail instead of propagating
+    to global package. This should be less confusing and most Python CLI tools
+    are implementing `__main__.py` entrypoint.
+    """
     logging.debug(f"Running command {args}")
-    subprocess.run(args=args, check=True, stdout=sys.stdout, stderr=sys.stderr)
+    subprocess.run(
+        args=[sys.executable, "-m", module, *args],
+        check=True,
+        stdout=sys.stdout,
+        stderr=sys.stderr,
+    )
 
 
 def perform_linting(config: LintPythonConfig, check_only: bool) -> None:
     def run_tool(command: str, *args: str, check: bool = False) -> None:
-        """
-        Run linter using `python -m` to force using package installed in virtualenv.
-        In case package is not installed, it will fail instead of propagating
-        to global package. This should be less confusing and most Python CLI tools
-        are implementing `__main__.py` entrypoint.
-        """
         logging.info(f"Linting with {command}")
-        run_command(
-            [
-                "python3",
-                "-m",
-                command,
-                *args,
-                *(["--check"] if check else []),
-                config["source"],
-            ]
-        )
+        run_command(command, [*args, *(["--check"] if check else []), config["source"]])
 
     if config.get("use-isort", True):
         run_tool("isort", check=check_only)
@@ -117,7 +111,7 @@ def perform_pip_install(config: LintPythonConfig, with_extra: bool) -> None:
     requirements = list(USED_LINTERS)
     if with_extra:
         requirements += (config.get("extra-requirements") or "").split()
-    run_command(["python3", "-m", "pip", "install", "-U", *requirements])
+    run_command("pip", ["install", "-U", *requirements])
 
 
 def validate_config(config: LintPythonConfig) -> bool:

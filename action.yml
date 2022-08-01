@@ -3,31 +3,31 @@ description: "Installs dependencies and runs common Python linters"
 inputs:
   source:
     description: 'Source directory'
-    required: true
+    required: false
   python-version:
     description: "What Python version use for running linting tools"
     required: false
-    default: 3.8
+    default: '3.8'
   use-isort:
     description: "Run isort check"
     required: false
-    default: true
+    default: 'true'
   use-black:
     description: "Run black check"
     required: false
-    default: true
+    default: 'true'
   use-flake8:
     description: "Run flake8 check"
     required: false
-    default: true
+    default: 'true'
   use-mypy:
     description: "Run mypy check"
     required: false
-    default: true
+    default: 'true'
   install-requirements:
     description: "Install dependencies from requirements.txt (for type checking)"
     required: false
-    default: true
+    default: 'true'
   extra-requirements:
     description: "Install extra dependencies (type stubs, extensions etc.)"
     required: false
@@ -40,6 +40,9 @@ runs:
       with:
         python-version: ${{inputs.python-version}}
     - run: pip install lint-python==2.0.0
+      shell: bash
+    - run: pip install -r requirements.txt
+      if: ${{inputs.install-requirements == 'true'}}
       shell: bash
     - run: lint-python --check --install
       shell: bash
