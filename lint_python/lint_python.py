@@ -179,11 +179,11 @@ def main() -> None:
             "lint-python configuration not discovered in project. "
             "Are you in project root directory?"
         )
-        return
+        sys.exit(1)
 
     if not validate_config(lint_config):
         logging.error("lint-python configuration not validated correctly.")
-        return
+        sys.exit(1)
 
     try:
         if args.install or args.install_only:
@@ -192,3 +192,4 @@ def main() -> None:
             perform_linting(lint_config, args.check)
     except subprocess.CalledProcessError as e:
         logging.error(f"Command {e.args} failed with return code {e.returncode}")
+        sys.exit(1)
