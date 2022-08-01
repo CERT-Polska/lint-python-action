@@ -89,6 +89,12 @@ def run_command(args: List[str]) -> None:
 
 def perform_linting(config: LintPythonConfig, check_only: bool) -> None:
     def run_tool(command: str, *args: str, check: bool = False) -> None:
+        """
+        Run linter using `python -m` to force using package installed in virtualenv.
+        In case package is not installed, it will fail instead of propagating
+        to global package. This should be less confusing and most Python CLI tools
+        are implementing `__main__.py` entrypoint.
+        """
         logging.info(f"Linting with {command}")
         run_command(
             [
