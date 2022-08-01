@@ -19,7 +19,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.scripts]
-lint-python = "lint_python.main:main"
+lint-python = "lint_python.lint_python:main"
 
 [tool.setuptools]
 packages = ["lint_python"]

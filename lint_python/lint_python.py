@@ -157,7 +157,9 @@ def main() -> None:
         "--install", action="store_true", help="Install required linters before linting"
     )
     parser.add_argument(
-        "--install-only", action="store_true", help="Install required linters but don't perform linting"
+        "--install-only",
+        action="store_true",
+        help="Install required linters but don't perform linting",
     )
     parser.add_argument(
         "--no-extras",
