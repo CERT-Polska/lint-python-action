@@ -30,10 +30,6 @@ LintGithubActionStep = TypedDict(
 )
 
 
-class WorkflowDiscoverError(Exception):
-    pass
-
-
 def discover_toml_config() -> Optional[LintPythonConfig]:
     pyproject_path = pathlib.Path("./pyproject.toml")
 
