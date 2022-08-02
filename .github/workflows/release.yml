@@ -12,7 +12,7 @@ jobs:
     - name: Build package
       run: |
         pip3 install build
-        python3 -m build --no-isolation
+        python3 -m build
     - name: Publish to PyPi
       uses: pypa/gh-action-pypi-publish@v1.3.0
       with:
