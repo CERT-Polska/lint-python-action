@@ -4,7 +4,6 @@ inputs:
   source:
     description: 'Source directory'
     required: false
-    default: '.'
   python-version:
     description: "What Python version use for running linting tools"
     required: false
@@ -43,11 +42,9 @@ runs:
     - run: pip install lint-python==2.0.0
       shell: bash
     - run: pip install -r requirements.txt
-      working-directory: ${{inputs.source}}
       if: ${{inputs.install-requirements == 'true'}}
       shell: bash
     - run: lint-python --check --install
-      working-directory: ${{inputs.source}}
       shell: bash
 branding:
   color: "green"
