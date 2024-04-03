@@ -43,9 +43,10 @@ runs:
     - uses: actions/setup-python@v4
       with:
         python-version: ${{inputs.python-version}}
-    - run: pip install lint-python==2.0.0
+    - run: pip install lint-python==2.2.1
       shell: bash
     - run: pip install -r requirements.txt
+      working-directory: ${{inputs.working-directory}}
       if: ${{inputs.install-requirements == 'true'}}
       shell: bash
     - run: lint-python --check --install
