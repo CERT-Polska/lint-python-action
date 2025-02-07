@@ -1,2 +1,2 @@
-__version__ = "2.1.1"
-USED_LINTERS = ["isort==5.10.1", "black==22.6.0", "flake8==4.0.1", "mypy==0.971"]
+__version__ = "2.2.0"
+USED_LINTERS = ["isort==5.13.2", "black==25.1.0", "flake8==7.1.1", "mypy==1.15.0"]
