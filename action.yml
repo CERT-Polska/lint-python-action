@@ -32,6 +32,10 @@ inputs:
     description: "Install extra dependencies (type stubs, extensions etc.)"
     required: false
     default: ""
+  working-directory:
+    description: "Set working directory for lint-python"
+    required: false
+    default: "."
 runs:
   using: "composite"
   steps:
@@ -39,12 +43,14 @@ runs:
     - uses: actions/setup-python@v4
       with:
         python-version: ${{inputs.python-version}}
-    - run: pip install lint-python==2.0.0
+    - run: pip install lint-python==2.2.1
       shell: bash
     - run: pip install -r requirements.txt
+      working-directory: ${{inputs.working-directory}}
       if: ${{inputs.install-requirements == 'true'}}
       shell: bash
     - run: lint-python --check --install
+      working-directory: ${{inputs.working-directory}}
       shell: bash
 branding:
   color: "green"
