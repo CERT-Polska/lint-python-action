@@ -7,7 +7,7 @@ inputs:
   python-version:
     description: "What Python version use for running linting tools"
     required: false
-    default: '3.8'
+    default: '3.9'
   use-isort:
     description: "Run isort check"
     required: false
@@ -43,7 +43,7 @@ runs:
     - uses: actions/setup-python@v4
       with:
         python-version: ${{inputs.python-version}}
-    - run: pip install lint-python==2.2.1
+    - run: pip install lint-python==2.3.1
       shell: bash
     - run: pip install -r requirements.txt
       working-directory: ${{inputs.working-directory}}
